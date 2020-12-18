@@ -1,0 +1,171 @@
+#include <iostream>
+using namespace std;
+
+char square[10] = {'o','1','2','3','4','5','6','7','8','9'};
+int onewins=0, twowins=0;
+ void board();
+ int checkWin();
+ int getMark();
+ int playAgain();
+ void finalScore();
+ void playGame();
+
+int main() {
+  playGame();
+}
+
+// game setup sets what go in each square
+void playGame(){
+    square[1]='1';
+    square[2]='2';
+    square[3]='3';
+    square[4]='4';
+    square[5]='5';
+    square[6]='6';
+    square[7]='7';
+    square[8]='8';
+    square[9]='9';
+  getMark();
+}
+
+//all possible win conditions/ cat games 
+int checkWin(){
+  if(square[1] == square[2] && square[2] == square[3]){
+    return 1;
+  }
+    if(square[4] == square[5] && square[5] == square[6]){
+    return 1;
+  }
+    if(square[7] == square[8] && square[8] == square[9]){
+    return 1;
+  }
+    if(square[1] == square[4] && square[4] == square[7]){
+    return 1;
+  }
+    if(square[2] == square[5] && square[5] == square[8]){
+    return 1;
+  }
+    if(square[3] == square[6] && square[6] == square[9]){
+    return 1;
+  }
+    if(square[1] == square[5] && square[5] == square[9]){
+    return 1;
+  }
+    if(square[3] == square[5] && square[5] == square[7]){
+    return 1;
+  }
+  // checks to see if every square has been filled 
+  else if(square[1]!='1' && square[2]!='2' && square[3]!='3'&&square[4]!='4' && square[5]!='5' && square[6]!='6'&& square[7]!='7'&& square[8]!='8' && square[9]!='9'){
+    return 0;
+  }
+  //cat game
+  else{
+    return -1;
+  }
+
+}
+
+// controls X's and O's put into square
+int getMark(){
+    int i;
+  int player=1;
+  int choice;
+  char enter;
+  do{
+    player=(player%2)?1:2;
+      board();
+      cout<<"Player "<<player<<" choose a square: ";
+      cin>>choice;
+      enter=(player == 1)? 'X':'O';
+      if(choice==1 && square[1]=='1'){
+        square[1]=enter;
+      }
+      else if(choice==1 && square[1]=='1'){
+        square[1]=enter;
+      }
+      else if(choice==2 && square[2]=='2'){
+        square[2]=enter;
+      }
+      else if(choice==3 && square[3]=='3'){
+        square[3]=enter;
+      }
+      else if(choice==4 && square[4]=='4'){
+        square[4]=enter;
+      }
+      else if(choice==5 && square[5]=='5'){
+        square[5]=enter;
+      }
+      else if(choice==6 && square[6]=='6'){
+        square[6]=enter;
+      }
+      else if(choice==7 && square[7]=='7'){
+        square[7]=enter;
+      }
+      else if(choice==8 && square[8]=='8'){
+        square[8]=enter;
+      }
+      else if(choice==9 && square[9]=='9'){
+        square[9]=enter;
+      }
+      // fail safe
+      else{
+        while(!cin){
+        cout<<"thats not right boi...\n";
+        cin.clear();
+        player--;
+        cin.ignore();
+        cin.get();
+        }
+      }
+      //tells what player won
+      i=checkWin();
+      player++;
+  }while(i==-1);
+      board();
+      if(i==1){
+        cout<<"Player "<<--player<<" Wins. ";
+        if(player==1){
+          onewins++;
+        }
+        else if(player == 2){
+          twowins++;
+        }
+      }
+      // game draw
+      else{
+        cout<<"Game Draw :(   ";
+      }
+      playAgain();
+  return i;
+}
+// game board
+void board(){
+  cout<<"Player One: "<<onewins<<"            "<<"Player Two: "<<twowins<<endl<<"   (X)                       (O)"<<endl;
+  cout<<"________________________\n|      |       |       |\n|   "<<square[1]<<"  |   "<<square[2]<<"   |   "<<square[3]<<"   |\n|______|_______|_______|\n|      |       |       |\n|   "<<square[4]<<"  |   "<<square[5]<<"   |   "<<square[6]<<"   |\n|______|_______|_______|\n|      |       |       |\n|   "<<square[7]<<"  |   "<<square[8]<<"   |   "<<square[9]<<"   |\n|______|_______|_______|\n\n";
+};
+//ask play agian check if you are or aren't
+int playAgain(){
+  cout<<"Play Again?(Y/N): ";
+  char choice;
+  cin>>choice;
+  if(choice=='y'||choice == 'Y'){
+    playGame();
+  }
+  else if(choice == 'n'||choice == 'N'){
+    finalScore();
+    return 0;
+  }
+  // fail safe
+  else{
+    cout<<"enter y or n"<<endl;
+    choice = ' ';
+    cin.ignore();
+    playAgain();
+  }
+  return choice;
+}
+// scoring 
+void finalScore(){
+  cout<<"Player 1's final score: "<<onewins<<endl;
+  cout<<"Player 2's final score: "<<twowins<<endl;
+}
